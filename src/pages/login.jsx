@@ -18,10 +18,10 @@ export default function Login() {
       setError(null);
 
       const data = await loginService(email, password);
-
       login(data);
 
       navigate("/dashboard/task");
+
     } catch (err) {
       setError(err.message || "Error en el login");
     } finally {

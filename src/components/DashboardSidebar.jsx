@@ -1,16 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/authContext";
-import { 
-  FaTasks, 
-  FaTrash, 
-  FaSignOutAlt, 
+import {
+  FaTasks,
+  FaTrash,
+  FaSignOutAlt,
   FaTimes
 } from "react-icons/fa";
 
 const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }) => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const location = useLocation();
-
   const isActive = (path) => {
     return location.pathname === path;
   };
@@ -30,32 +29,35 @@ const DashboardSidebar = ({ sidebarOpen, setSidebarOpen }) => {
             <FaTimes />
           </button>
         </div>
-        
+
+
         <nav className="mt-4">
           <Link
             to="/dashboard/task"
-            className={`flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 ${
-              isActive('/dashboard/task') ? 'bg-blue-50 border-r-4 border-blue-500' : ''
-            }`}
+            className={`flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 ${isActive('/dashboard/task') ? 'bg-blue-50 border-r-4 border-blue-500' : ''
+              }`}
           >
             <FaTasks className="mr-3" />
             Mis Tareas
           </Link>
           <Link
             to="/dashboard/task/trash"
-            className={`flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 ${
-              isActive('/dashboard/task/trash') ? 'bg-blue-50 border-r-4 border-blue-500' : ''
-            }`}
+            className={`flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 ${isActive('/dashboard/task/trash') ? 'bg-blue-50 border-r-4 border-blue-500' : ''
+              }`}
           >
             <FaTrash className="mr-3" />
             Papelera
           </Link>
         </nav>
-        
-        <div className="absolute bottom-0 w-full p-4 border-t">
+        <div className="absolute bottom-0 w-full p-4 border-t flex flex-col items-center">
+          {user && (
+            <div className="w-full mb-3 px-3 py-2 bg-gray-100 text-gray-700 text-sm rounded-lg text-center truncate">
+              {user.email}
+            </div>
+          )}
           <button
             onClick={logout}
-            className="flex items-center w-full px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg"
+            className="flex items-center w-full px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
           >
             <FaSignOutAlt className="mr-3" />
             Cerrar sesión
