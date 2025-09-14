@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import Task from "./pages/dashboard/task";
+import TaskDone from "./pages/dashboard/taskDone";
+import TaskTrash from "./pages/dashboard/taskTrash";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+       <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/dashboard/task"
+          element={
+            <ProtectedRoute>
+              <Task />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/task/done"
+          element={
+            <ProtectedRoute>
+              <TaskDone />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/task/trash"
+          element={
+            <ProtectedRoute>
+              <TaskTrash />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
+  );
 }
-
-export default App
+export default App;
